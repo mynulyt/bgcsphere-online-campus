@@ -1,6 +1,12 @@
 import 'package:bgcsphere/pages/category_page.dart';
 import 'package:bgcsphere/pages/clubs_page.dart';
 import 'package:bgcsphere/pages/codingclub_page.dart';
+import 'package:bgcsphere/pages/cultural_club.dart';
+
+import 'package:bgcsphere/pages/rechearch_club.dart';
+import 'package:bgcsphere/pages/robotices_club.dart';
+import 'package:bgcsphere/pages/sports_club.dart';
+
 import 'package:flutter/material.dart';
 
 class ClubDetails extends StatelessWidget {
@@ -18,23 +24,27 @@ class ClubDetails extends StatelessWidget {
     {
       'title': 'Cultural\n Club',
       'color': Color(0xFF3CB5E0),
-      'icon': 'images/music.png'
+      'icon': 'images/music.png',
+      'isCulturalClub': true,
     },
     {
       'title': 'Sports Club',
       'color': Color(0xFFFFC1B2),
-      'icon': 'images/sports.png'
+      'icon': 'images/sports.png',
+      'isSportsClub': true,
     },
     {
       'title': 'Robotics\n Club',
       'color': Color(0xFF528AE1),
-      'icon': 'images/robotics.png'
-    },       
-      {
+      'icon': 'images/robotics.png',
+      'isRoboticsClub': true,
+    },
+    {
       'title': 'Research\n Club',
       'color': Color(0xFF528AE1),
-      'icon': 'images/Frame.png'
-    },     
+      'icon': 'images/Frame.png',
+      'isResearchClub': true,
+    },
   ];
 
   @override
@@ -53,13 +63,13 @@ class ClubDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                         icon: const Icon(Icons.arrow_back_ios_new),
+                        icon: const Icon(Icons.arrow_back_ios_new),
                         onPressed: () => Navigator.pop(context),
                       ),
                       const Text(
                         "Clubs",
                         style: TextStyle(
-                          fontSize: 20, 
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -86,8 +96,7 @@ class ClubDetails extends StatelessWidget {
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CategoryPage()
-                          ),
+                              builder: (context) => const CategoryPage()),
                         ),
                       ),
                     ],
@@ -95,8 +104,7 @@ class ClubDetails extends StatelessWidget {
                 ],
               ),
             ),
-            
-              Image.asset('images/clubs.png',),
+            Image.asset('images/clubs.png'),
             ClubsPage(
               customItems: (customItems ?? defaultClubItems).map((item) {
                 return {
@@ -106,10 +114,33 @@ class ClubDetails extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CodingClubPage()
-                        ),
+                            builder: (context) => const CodingClubPage()),
                       );
-                    } 
+                    } else if (item['isCulturalClub'] == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CulturalClub()),
+                      );
+                    } else if (item['isSportsClub'] == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SportsClubPage()),
+                      );
+                    } else if (item['isRoboticsClub'] == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RoboticesClubPage()),
+                      );
+                    } else if (item['isResearchClub'] == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ResearchClubPage()),
+                      );
+                    }
                   },
                 };
               }).toList(),

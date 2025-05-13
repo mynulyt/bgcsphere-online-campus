@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CodingClubPage extends StatelessWidget {
-  const CodingClubPage({super.key});
+class CulturalClub extends StatelessWidget {
+  const CulturalClub({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class CodingClubPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'Coding Club',
+          'Mynul Alam',
           style: TextStyle(
             letterSpacing: -0.2,
             height: 24,
@@ -48,7 +48,7 @@ class CodingClubPage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
-                      'images/banner.png',
+                      'images/culture.jpg',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -83,7 +83,7 @@ class CodingClubPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Mynul Alam',
+                      'Iman Gadzhi',
                       style: TextStyle(
                         fontSize: 16,
                         color: Color(0xff768FCF),
