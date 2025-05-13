@@ -5,7 +5,7 @@ import 'package:bgcsphere/pages/newsfeed_page.dart';
 import 'package:bgcsphere/pages/notifications_page.dart';
 import 'package:bgcsphere/pages/profile_page.dart';
 import 'package:bgcsphere/pages/set_images.dart';
-import 'package:bgcsphere/pages/showpage.dart';
+
 import 'package:bgcsphere/pages/welcomescreen.dart';
 import 'package:flutter/material.dart';
 
