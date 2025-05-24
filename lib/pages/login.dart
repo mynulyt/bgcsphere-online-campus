@@ -19,6 +19,12 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -34,13 +40,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   child: Image.asset("images/wow.png"),
                 ),
               ),
-              Expanded(
-                flex: 4,
-                child: Container(color: Colors.white),
-              ),
+              Expanded(flex: 4, child: Container(color: Colors.white)),
             ],
           ),
-          // Login Form
           SingleChildScrollView(
             child: Center(
               child: Column(
@@ -99,28 +101,23 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                             labelStyle: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                             unselectedLabelStyle: const TextStyle(fontSize: 14),
-                            tabs: [
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Login()));
-                                  },
-                                  child: const Tab(text: "Log in")),
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Register()));
-                                  },
-                                  child: const Tab(text: "Register")),
+                            tabs: const [
+                              Tab(text: "Log in"),
+                              Tab(text: "Register"),
                             ],
                           ),
                         ),
                         const SizedBox(height: 20),
-                        _buildLoginForm(),
+                        SizedBox(
+                          height: 500, // set appropriate height
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: [
+                              _buildLoginForm(),
+                              const Register(), // directly use your Register widget here
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -144,7 +141,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             hintStyle: TextStyle(
                 color: Colors.black.withOpacity(0.4),
                 fontWeight: FontWeight.normal),
-            hintText: "mynul@alu.com",
+            hintText: "mynul@gmail.com",
             prefixIcon: const Icon(Icons.email_outlined),
             suffixIcon: const Icon(
               Icons.info,
@@ -201,7 +198,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             ),
           ),
           onPressed: () {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const MainPage()));
           },
           child: const Text(

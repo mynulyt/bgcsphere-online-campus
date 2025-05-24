@@ -97,7 +97,7 @@ class _JoinAsScreenState extends State<JoinAsScreen> {
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Login()),
+          MaterialPageRoute(builder: (context) => const Login()),
         );
       },
       child: Container(

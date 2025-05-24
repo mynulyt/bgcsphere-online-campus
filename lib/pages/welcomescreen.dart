@@ -83,8 +83,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => JoinAsScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const JoinAsScreen()));
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,

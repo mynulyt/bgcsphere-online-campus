@@ -25,15 +25,11 @@ class _LoginState extends State<Register> with SingleTickerProviderStateMixin {
           Column(
             children: [
               Expanded(
-                flex: 2,
                 child: Container(
-                  color: const Color(0xff768FCF),
                   width: MediaQuery.of(context).size.width,
-                  child: Image.asset("images/logo.png"),
                 ),
               ),
               Expanded(
-                flex: 4,
                 child: Container(color: Colors.white),
               ),
             ],
@@ -43,7 +39,7 @@ class _LoginState extends State<Register> with SingleTickerProviderStateMixin {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 200),
+                  const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(20),
                     margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -103,7 +99,8 @@ class _LoginState extends State<Register> with SingleTickerProviderStateMixin {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Login()));
+                                            builder: (context) =>
+                                                const Login()));
                                   },
                                   child: const Tab(text: "Log in")),
                               GestureDetector(
@@ -111,7 +108,8 @@ class _LoginState extends State<Register> with SingleTickerProviderStateMixin {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Register()));
+                                            builder: (context) =>
+                                                const Register()));
                                   },
                                   child: const Tab(text: "Register")),
                             ],
