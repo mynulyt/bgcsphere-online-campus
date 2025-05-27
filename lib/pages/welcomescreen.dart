@@ -1,5 +1,4 @@
 import 'package:bgcsphere/pages/joinasscreen.dart';
-import 'package:bgcsphere/pages/login.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
