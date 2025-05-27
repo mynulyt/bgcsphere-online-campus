@@ -180,6 +180,125 @@ class _LoginState extends State<Register> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text("Internal ID"),
+        const SizedBox(height: 5),
+        TextFormField(
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.4),
+                fontWeight: FontWeight.normal),
+            hintText: "2402390****",
+            prefixIcon: const Icon(Icons.roller_shades),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text("Phone Number"),
+        const SizedBox(height: 5),
+        TextFormField(
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.4),
+                fontWeight: FontWeight.normal),
+            hintText: "019********",
+            prefixIcon: const Icon(Icons.contact_emergency),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text("Blood Group"),
+        const SizedBox(height: 5),
+        TextFormField(
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.4),
+                fontWeight: FontWeight.normal),
+            hintText: "Enter your Blood Group",
+            prefixIcon: const Icon(Icons.bloodtype),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text("Division"),
+        const SizedBox(height: 5),
+        TextFormField(
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.4),
+                fontWeight: FontWeight.normal),
+            hintText: "Enter your Division",
+            prefixIcon: const Icon(Icons.add),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text("District"),
+        const SizedBox(height: 5),
+        TextFormField(
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.4),
+                fontWeight: FontWeight.normal),
+            hintText: "Enter your District...",
+            prefixIcon: const Icon(Icons.add),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text("Tana"),
+        const SizedBox(height: 5),
+        TextFormField(
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.4),
+                fontWeight: FontWeight.normal),
+            hintText: "Enter your Tana...",
+            prefixIcon: const Icon(Icons.add),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text("Union"),
+        const SizedBox(height: 5),
+        TextFormField(
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+                color: Colors.black.withOpacity(0.4),
+                fontWeight: FontWeight.normal),
+            hintText: "Enter your Union",
+            prefixIcon: const Icon(Icons.add),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
         const SizedBox(height: 30),
         ElevatedButton(
           style: ElevatedButton.styleFrom(

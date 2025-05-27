@@ -1,4 +1,5 @@
 import 'package:bgcsphere/main.dart';
+import 'package:bgcsphere/pages/forget_password.dart';
 import 'package:bgcsphere/pages/register.dart';
 import 'package:flutter/material.dart';
 
@@ -182,9 +183,15 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                 const Text("Remember me"),
               ],
             ),
-            Text(
-              "Forgot Password?",
-              style: TextStyle(color: Colors.purple[150], fontSize: 12),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => ForgetPassword()));
+              },
+              child: Text(
+                "Forgot Password?",
+                style: TextStyle(color: Colors.purple[150], fontSize: 12),
+              ),
             ),
           ],
         ),
