@@ -41,7 +41,7 @@ class _LoginState extends State<Register> with SingleTickerProviderStateMixin {
                 children: [
                   const SizedBox(height: 20),
                   Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -56,65 +56,6 @@ class _LoginState extends State<Register> with SingleTickerProviderStateMixin {
                     ),
                     child: Column(
                       children: [
-                        Container(
-                          height: 50,
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: TabBar(
-                            controller: _tabController,
-                            indicator: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.blue.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            indicatorColor: Colors.transparent,
-                            dividerColor: Colors.transparent,
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            labelColor: Colors.black,
-                            unselectedLabelColor: Colors.black45,
-                            labelStyle: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                            unselectedLabelStyle: const TextStyle(fontSize: 14),
-                            tabs: [
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Login()));
-                                  },
-                                  child: const Tab(text: "Log in")),
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Register()));
-                                  },
-                                  child: const Tab(text: "Register")),
-                            ],
-                          ),
-                        ),
                         const SizedBox(height: 20),
                         _buildLoginForm(),
                       ],
