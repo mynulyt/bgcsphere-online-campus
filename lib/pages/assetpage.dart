@@ -135,6 +135,7 @@ class _InfoCardState extends State<InfoCard> {
     );
   }
 }
+
 void showPaymentMethodCard(BuildContext context) {
   showModalBottomSheet(
     backgroundColor: Colors.transparent,
@@ -143,7 +144,7 @@ void showPaymentMethodCard(BuildContext context) {
     builder: (BuildContext context) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
-        child: Align( 
+        child: Align(
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Container(
@@ -222,7 +223,7 @@ class PostOptionItem extends StatelessWidget {
     return ListTile(
       leading: Icon(
         icon,
-        color: Color(0xFF6677CC),
+        color: const Color(0xFF6677CC),
         size: 30,
       ),
       title: Text(
@@ -234,9 +235,7 @@ class PostOptionItem extends StatelessWidget {
   }
 }
 
-
-
- Widget buildProfileButton(String title, IconData icon, VoidCallback onTap) {
+Widget buildProfileButton(String title, IconData icon, VoidCallback onTap) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
     child: Container(
@@ -246,15 +245,11 @@ class PostOptionItem extends StatelessWidget {
         color: Colors.white,
       ),
       child: ListTile(
-        title: Text(title, style: TextStyle(fontWeight: FontWeight.w500)),
-        trailing: Icon(Icons.arrow_forward_ios, size: 16),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         leading: Icon(icon, color: Colors.blue),
         onTap: onTap,
       ),
     ),
   );
 }
-
-
-
-

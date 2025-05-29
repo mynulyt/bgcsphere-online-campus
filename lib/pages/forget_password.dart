@@ -8,13 +8,13 @@ class ForgetPassword extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff6677CC),
-        title: Text(
+        title: const Text(
           "Forget Password",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,6 @@
+import 'package:bgcsphere/pages/blood_details.dart';
 import 'package:flutter/material.dart';
+import 'package:bgcsphere/pages/assetpage.dart'; // Replace with your actual BloodDetailsPage
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -51,18 +53,20 @@ class ProfilePage extends StatelessWidget {
             style: TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 30),
-
-          // Buttons
-          _buildProfileButton("Setting", Icons.settings),
-          _buildProfileButton("Contact", Icons.phone),
-          _buildProfileButton("Share App", Icons.share),
-          _buildProfileButton("Help", Icons.help_outline),
-
+          buildProfileButton("Setting", Icons.settings, () {}),
+          buildProfileButton("Contact", Icons.phone, () {}),
+          buildProfileButton("Blood Details", Icons.bloodtype, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const BloodDetails()),
+            );
+          }),
+          buildProfileButton("Share App", Icons.share, () {}),
+          buildProfileButton("Help", Icons.help_outline, () {}),
           const Spacer(),
-
           TextButton(
             onPressed: () {
-              print("Button Click");
+              // Sign out logic
             },
             child: const Text(
               "Sign Out",
@@ -71,26 +75,6 @@ class ProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 20),
         ],
-      ),
-    );
-  }
-
-  Widget _buildProfileButton(String title, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.blue.shade100),
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        child: ListTile(
-          title:
-              Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-          leading: Icon(icon, color: Colors.blue),
-          onTap: () {},
-        ),
       ),
     );
   }

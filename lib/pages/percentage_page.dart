@@ -1,4 +1,3 @@
-import 'package:bgcsphere/pages/classes_page.dart';
 import 'package:flutter/material.dart';
 
 class PercentagePage extends StatelessWidget {
@@ -22,7 +21,8 @@ class PercentagePage extends StatelessWidget {
               child: Container(
                 height: 81,
                 color: const Color(0xffA2ACE0).withOpacity(0.13),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
@@ -48,9 +48,7 @@ class PercentagePage extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () {
-                      
-                    },
+              onTap: () {},
               child: Row(
                 children: [
                   Padding(
@@ -78,13 +76,12 @@ class PercentagePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                     
                   ),
                   const Icon(
-                              Icons.arrow_forward,
-                              size: 24,
-                              color: Color(0xFF6677CC),
-                            ),
+                    Icons.arrow_forward,
+                    size: 24,
+                    color: Color(0xFF6677CC),
+                  ),
                 ],
               ),
             ),
@@ -115,19 +112,19 @@ class PercentagePage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                 Text(
-                            courseName,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF768FCF),
-                              fontSize: 20,
-                            ),
-                          ),
+                    Text(
+                      courseName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF768FCF),
+                        fontSize: 20,
+                      ),
+                    ),
                     Stack(
                       alignment: Alignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top:30),
+                          padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
                             width: 270,
                             height: 260,
@@ -164,7 +161,7 @@ class PercentagePage extends StatelessWidget {
                       height: 38,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF6677CC),
+                          backgroundColor: const Color(0xFF6677CC),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),

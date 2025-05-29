@@ -13,7 +13,7 @@ class CulturalClub extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'Mynul Alam',
+          'Cultural Club',
           style: TextStyle(
             letterSpacing: -0.2,
             height: 24,

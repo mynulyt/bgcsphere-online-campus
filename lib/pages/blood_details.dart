@@ -103,7 +103,6 @@ class _BloodDetailsState extends State<BloodDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -169,7 +168,6 @@ class _BloodDetailsState extends State<BloodDetails> {
                         style: TextStyle(
                           fontSize: 24,
                           color: Color(0xFF536471),
-                         
                         ),
                       ),
                       Padding(
@@ -186,7 +184,10 @@ class _BloodDetailsState extends State<BloodDetails> {
                       ),
                       const SizedBox(height: 20),
                       const Text("Last Blood Donation Date",
-                          style: TextStyle(fontWeight: FontWeight.w600,color: Color(0xff536471),fontSize: 16)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xff536471),
+                              fontSize: 16)),
                       const SizedBox(height: 10),
                       InkWell(
                         onTap: _pickDate,
@@ -196,7 +197,7 @@ class _BloodDetailsState extends State<BloodDetails> {
                               horizontal: 12, vertical: 12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Color(0xff768FCF)),
+                            border: Border.all(color: const Color(0xff768FCF)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,9 +207,13 @@ class _BloodDetailsState extends State<BloodDetails> {
                                     ? DateFormat('dd  MMMM  yyyy')
                                         .format(donationDate!)
                                     : 'Select Date',
-                                style: const TextStyle(fontSize: 16,color: Color(0xff536471)),
+                                style: const TextStyle(
+                                    fontSize: 16, color: Color(0xff536471)),
                               ),
-                              const Icon(Icons.calendar_month,color: Color(0xff768FCF),),
+                              const Icon(
+                                Icons.calendar_month,
+                                color: Color(0xff768FCF),
+                              ),
                             ],
                           ),
                         ),
@@ -241,8 +246,10 @@ class _BloodDetailsState extends State<BloodDetails> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          child: const Text("Save",
-                              style: TextStyle(fontSize: 24,color: Colors.white),),
+                          child: const Text(
+                            "Save",
+                            style: TextStyle(fontSize: 24, color: Colors.white),
+                          ),
                         ),
                       )
                     ],

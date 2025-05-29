@@ -4,7 +4,6 @@ import 'package:bgcsphere/pages/category_page.dart';
 import 'package:bgcsphere/pages/clubs_page.dart';
 import 'package:bgcsphere/pages/donor_list.dart';
 
-
 class BloodDonation extends StatefulWidget {
   final List<Map<String, dynamic>>? customItems;
 
@@ -13,19 +12,19 @@ class BloodDonation extends StatefulWidget {
   static List<Map<String, dynamic>> defaultClubItems = [
     {
       'title': 'Donate',
-      'color': Color(0xFFA4A1E6),
+      'color': const Color(0xFFA4A1E6),
       'icon': 'images/blood_bag.png',
       'donate': true,
     },
     {
       'title': 'Request',
-      'color': Color(0xFF94D1E6),
+      'color': const Color(0xFF94D1E6),
       'icon': 'images/request.png',
       'attendance': true,
     },
     {
       'title': 'Support',
-      'color': Color(0xFF36AD52).withOpacity(0.48),
+      'color': const Color(0xFF36AD52).withOpacity(0.48),
       'icon': 'images/support.png',
       'support': true,
     },
@@ -38,7 +37,16 @@ class BloodDonation extends StatefulWidget {
 class _BloodDonationState extends State<BloodDonation> {
   String selectedBloodType = 'O+';
 
-  final List<String> bloodTypes = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
+  final List<String> bloodTypes = [
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,6 @@ class _BloodDonationState extends State<BloodDonation> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            
             Container(
               height: 144,
               color: const Color(0xffA2ACE0).withOpacity(0.13),
@@ -94,7 +101,8 @@ class _BloodDonationState extends State<BloodDonation> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const CategoryPage()),
+                            MaterialPageRoute(
+                                builder: (context) => const CategoryPage()),
                           );
                         },
                       ),
@@ -103,7 +111,6 @@ class _BloodDonationState extends State<BloodDonation> {
                 ],
               ),
             ),
-
             Stack(
               children: [
                 Center(
@@ -126,15 +133,14 @@ class _BloodDonationState extends State<BloodDonation> {
                 ),
               ],
             ),
-
-           const Text(
-          'Select Blood Type',
-          style: TextStyle(
-            fontSize: 24,
-            color: Color(0xFF768FCF),
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+            const Text(
+              'Select Blood Type',
+              style: TextStyle(
+                fontSize: 24,
+                color: Color(0xFF768FCF),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: BloodTypeSelector(
@@ -147,19 +153,19 @@ class _BloodDonationState extends State<BloodDonation> {
                 },
               ),
             ),
-
             const SizedBox(height: 0),
-
-          
             ClubsPage(
-              customItems: (widget.customItems ?? BloodDonation.defaultClubItems).map((item) {
+              customItems:
+                  (widget.customItems ?? BloodDonation.defaultClubItems)
+                      .map((item) {
                 return {
                   ...item,
                   'onTap': () {
                     if (item['donate'] == true) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const DonorList()),
+                        MaterialPageRoute(
+                            builder: (context) => const DonorList()),
                       );
                     }
                   },

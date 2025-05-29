@@ -6,11 +6,11 @@ class NoticeCard extends StatelessWidget {
   final VoidCallback onViewPressed;
 
   const NoticeCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.date,
     required this.onViewPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

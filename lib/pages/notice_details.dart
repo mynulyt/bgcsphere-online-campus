@@ -23,7 +23,7 @@ class NoticeDetails extends StatelessWidget {
                         icon: const Icon(Icons.arrow_back_ios_new),
                         onPressed: () => Navigator.pop(context),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                       const Text(
@@ -38,25 +38,27 @@ class NoticeDetails extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: Container(
                 child: Image.asset('images/n.png'),
               ),
             ),
-            SizedBox(height: 20,),
-            Container(
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
               height: 50,
               width: 287,
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF6677CC),
+                  backgroundColor: const Color(0xFF6677CC),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
                 child: const Text(
                   'Download',

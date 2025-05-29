@@ -65,11 +65,10 @@ class Assignment extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: Container(
                 width: 374,
                 height: 258,
-                
                 margin: const EdgeInsets.all(12),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -98,21 +97,21 @@ class Assignment extends StatelessWidget {
                     const Text(
                       'Course Teather: Md. Asaduzzaman',
                       style: TextStyle(
-                        color:Color(0xff536471),
+                        color: Color(0xff536471),
                         fontSize: 16,
                       ),
                     ),
                     const Text(
                       'Assignment Number: 02',
                       style: TextStyle(
-                        color:Color(0xff536471),
+                        color: Color(0xff536471),
                         fontSize: 16,
                       ),
                     ),
                     const Text(
                       'Assignment Topic:Feasibility Report ',
                       style: TextStyle(
-                        color:Color(0xff536471),
+                        color: Color(0xff536471),
                         fontSize: 16,
                       ),
                     ),
@@ -120,14 +119,15 @@ class Assignment extends StatelessWidget {
                     const Row(
                       children: [
                         Icon(Icons.calendar_today,
-                            size: 24, color:Color(0xff1E1E1E)),
+                            size: 24, color: Color(0xff1E1E1E)),
                         SizedBox(width: 6),
                         Text(
                           'Tuesday, 15 May',
-                          style: TextStyle(color:Color(0xff536471)),
+                          style: TextStyle(color: Color(0xff536471)),
                         ),
                         SizedBox(width: 16),
-                        Icon(Icons.access_time, size: 24, color: Color(0xff1E1E1E)),
+                        Icon(Icons.access_time,
+                            size: 24, color: Color(0xff1E1E1E)),
                         SizedBox(width: 6),
                         Text(
                           '9:00 PM',
@@ -143,15 +143,16 @@ class Assignment extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF6677CC),
+                            backgroundColor: const Color(0xFF6677CC),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
                           child: const Text(
                             'Submit',
-                            style: TextStyle(fontSize: 16,color: Color(0xffFFFFFF)),
+                            style: TextStyle(
+                                fontSize: 16, color: Color(0xffFFFFFF)),
                           ),
                         ),
                       ),

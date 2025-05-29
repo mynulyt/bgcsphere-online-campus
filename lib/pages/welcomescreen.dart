@@ -14,21 +14,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height / 1.7,
             width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromARGB(255, 184, 199, 216),
-                      Color.fromARGB(204, 16, 104, 176)
-                    ]),
-                color: Color(0xff768FCF),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(179.6),
-                    bottomRight: Radius.circular(179.6))),
             child: Column(
               children: [
                 const SizedBox(height: 90),
@@ -49,10 +37,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     letterSpacing: -0.002,
                   ),
                 ),
-                Image.asset(
-                  "images/wow.png",
-                  height: 250,
-                  width: 250,
+                Stack(
+                  children: [
+                    Center(
+                        child: Image.asset(
+                      'images/background.png',
+                      height: 280,
+                      width: 316,
+                    )),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40),
+                      child: Center(
+                        child: Image.asset(
+                          'images/clubs.png',
+                          width: 200,
+                          height: 200,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

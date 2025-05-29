@@ -1,10 +1,9 @@
+import 'package:bgcsphere/assignment.dart';
 import 'package:bgcsphere/pages/admitcard.dart';
-import 'package:bgcsphere/pages/assignment.dart';
 import 'package:bgcsphere/pages/attendance_page.dart';
 import 'package:bgcsphere/pages/category_page.dart';
 import 'package:bgcsphere/pages/classes_page.dart';
 import 'package:bgcsphere/pages/clubs_page.dart';
-
 import 'package:bgcsphere/pages/result_page.dart';
 import 'package:bgcsphere/pages/routine.dart';
 import 'package:flutter/material.dart';
@@ -17,37 +16,37 @@ class Classroom extends StatelessWidget {
   static List<Map<String, dynamic>> defaultClubItems = [
     {
       'title': 'Classes',
-      'color': Color(0xFF36AD52).withOpacity(0.48),
+      'color': const Color(0xFF36AD52).withOpacity(0.48),
       'icon': 'images/class.png',
       'classes': true,
     },
     {
       'title': 'Attendance',
-      'color': Color(0xFF94D1E6),
+      'color': const Color(0xFF94D1E6),
       'icon': 'images/attendance.png',
       'attendance': true,
     },
     {
       'title': 'Routine',
-      'color': Color(0xFFA4A1E6),
+      'color': const Color(0xFFA4A1E6),
       'icon': 'images/routine.png',
       'routine': true,
     },
     {
       'title': 'Admit Card',
-      'color': Color(0xFFFFC2B2),
+      'color': const Color(0xFFFFC2B2),
       'icon': 'images/admitcard.png',
       'admit': true,
     },
     {
       'title': 'Assignment',
-      'color': Color(0xFF528AE1),
+      'color': const Color(0xFF528AE1),
       'icon': 'images/assignment.png',
       'assignment': true,
     },
     {
       'title': 'Result',
-      'color': Color(0xFFE59EC1),
+      'color': const Color(0xFFE59EC1),
       'icon': 'images/result.png',
       'result': true,
     },
@@ -162,7 +161,7 @@ class Classroom extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ResultPage(),
+                          builder: (context) => const ResultPage(),
                         ),
                       );
                     }
@@ -170,7 +169,7 @@ class Classroom extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AttendancePage(),
+                          builder: (context) => const AttendancePage(),
                         ),
                       );
                     }

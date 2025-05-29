@@ -1,13 +1,13 @@
+import 'package:bgcsphere/pages/splash_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/category_page.dart';
 import 'package:bgcsphere/pages/chat_page.dart';
 import 'package:bgcsphere/pages/clubs_page.dart';
+import 'package:bgcsphere/pages/create_post_page.dart';
 import 'package:bgcsphere/pages/newsfeed_page.dart';
 import 'package:bgcsphere/pages/notifications_page.dart';
 import 'package:bgcsphere/pages/profile_page.dart';
 import 'package:bgcsphere/pages/set_images.dart';
-
-import 'package:bgcsphere/pages/welcomescreen.dart';
-import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BGC Sphere',
-      home: WelcomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
@@ -77,7 +77,7 @@ class MainPageState extends State<MainPage> {
         backgroundColor: const Color(0xffA2ACE0).withOpacity(0.13),
         elevation: 0,
         title: const Padding(
-          padding: EdgeInsets.only(top: 8.0),
+          padding: EdgeInsets.only(top: 8.0, left: 5, bottom: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -85,9 +85,7 @@ class MainPageState extends State<MainPage> {
                 "Hello, Welcome",
                 style: TextStyle(fontSize: 20, color: Colors.black),
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               Text(
                 "BGCSPHERE",
                 style: TextStyle(fontSize: 18, color: Color(0xff6677CC)),
@@ -107,7 +105,7 @@ class MainPageState extends State<MainPage> {
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
-                child: Icon(Icons.person, color: Colors.blue),
+                backgroundImage: AssetImage("images/profile.jpg"),
               ),
             ),
           ),
@@ -116,45 +114,66 @@ class MainPageState extends State<MainPage> {
           preferredSize: const Size.fromHeight(70),
           child: Padding(
             padding:
-                const EdgeInsets.only(top: 10, right: 10, left: 20, bottom: 10),
+                const EdgeInsets.only(top: 5, right: 10, left: 20, bottom: 10),
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 12),
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: "Search here...",
-                      border: OutlineInputBorder(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CreatePostPage()),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey.shade400),
                         borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: const Text(
+                        "What is in your mind?",
+                        style: TextStyle(
+                          color: Color(0xff24293E),
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
-                IconButton(
-                  icon: const Icon(Icons.category,
-                      color: Colors.deepPurple, size: 30),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CategoryPage()),
-                    );
-                  },
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff768FCF),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.search, color: Colors.white),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CategoryPage()),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SetImages(),
-              SizedBox(height: 16),
+              const SetImages(),
+              const SizedBox(height: 16),
               ClubsPage(),
             ],
           ),

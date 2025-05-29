@@ -89,25 +89,22 @@ class _NewsfeedPageState extends State<NewsfeedPage> {
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
+                        hintText: "Search...",
                         prefixIcon: const Icon(Icons.search),
-                        hintText: "Search here...",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 12),
                   IconButton(
-                    icon: const Icon(Icons.category,
-                        color: Colors.deepPurple, size: 40),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CategoryPage()),
-                      );
-                    },
+                    icon: Image.asset('images/Filter.png'),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CategoryPage()),
+                    ),
                   ),
                 ],
               ),
@@ -239,6 +236,7 @@ class _NewsfeedPageState extends State<NewsfeedPage> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Row(
                   children: [

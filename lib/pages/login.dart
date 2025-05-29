@@ -185,8 +185,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ForgetPassword()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ForgetPassword()));
               },
               child: Text(
                 "Forgot Password?",

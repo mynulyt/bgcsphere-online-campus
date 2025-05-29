@@ -1,5 +1,4 @@
 import 'package:bgcsphere/pages/category_page.dart';
-
 import 'package:bgcsphere/pages/clubs_page.dart';
 import 'package:bgcsphere/pages/departmental.dart';
 import 'package:bgcsphere/pages/donation.dart';
@@ -15,19 +14,19 @@ class FundRaising extends StatelessWidget {
   static List<Map<String, dynamic>> defaultClubItems = [
     {
       'title': 'Deaprtmental',
-      'color': Color(0xFFA4A1E6),
+      'color': const Color(0xFFA4A1E6),
       'icon': 'images/dept.png',
       'dept': true,
     },
     {
       'title': 'Donation',
-      'color': Color(0xFF94D1E6),
+      'color': const Color(0xFF94D1E6),
       'icon': 'images/donation.png',
       'donation': true,
     },
     {
       'title': 'Support',
-      'color': Color(0xFF36AD52).withOpacity(0.48),
+      'color': const Color(0xFF36AD52).withOpacity(0.48),
       'icon': 'images/support.png',
       'support': true,
     },

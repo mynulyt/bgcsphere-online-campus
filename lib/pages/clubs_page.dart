@@ -1,34 +1,54 @@
+import 'package:bgcsphere/pages/blood_donation.dart';
 import 'package:bgcsphere/pages/club_details.dart';
+import 'package:bgcsphere/pages/classroom.dart';
+import 'package:bgcsphere/pages/fund_raising.dart';
+import 'package:bgcsphere/pages/notice_page.dart';
 import 'package:flutter/material.dart';
 
 class ClubsPage extends StatelessWidget {
   final List<Map<String, dynamic>> clubItems;
 
-  const ClubsPage({
+  ClubsPage({
     super.key,
     List<Map<String, dynamic>>? customItems,
   }) : clubItems = customItems ?? _defaultClubItems;
 
-  static const List<Map<String, dynamic>> _defaultClubItems = [
+  static final List<Map<String, dynamic>> _defaultClubItems = [
     {
       'title': 'Clubs',
-      'color': Color(0xFFA4A1E6),
-      'icon': 'images/club.png'
+      'color': const Color(0xFFA4A1E6),
+      'icon': 'images/club.png',
+      'clubs': true,
     },
     {
       'title': 'Support',
-      'color': Color(0xFF3CB5E0),
-      'icon': 'images/support.png'
+      'color': const Color(0xFF3CB5E0),
+      'icon': 'images/support.png',
+      'support': true,
     },
     {
       'title': 'Blood Donation',
-      'color': Color(0xFFFFC1B2),
-      'icon': 'images/blooddonation.png'
+      'color': const Color(0xFFFFC1B2),
+      'icon': 'images/blooddonation.png',
+      'bloodDonation': true,
     },
     {
-      'title': 'Donation',
-      'color': Color(0xFF528AE1),
-      'icon': 'images/donation.png'
+      'title': 'Fundraising',
+      'color': const Color(0xFF528AE1),
+      'icon': 'images/fund.png',
+      'fund': true,
+    },
+    {
+      'title': 'Classroom',
+      'color': const Color(0xFF36AD52).withOpacity(0.48),
+      'icon': 'images/class.png',
+      'classroom': true,
+    },
+    {
+      'title': 'Notices',
+      'color': const Color(0xFFE59EC1),
+      'icon': 'images/notice.png',
+      'notice': true,
     },
   ];
 
@@ -48,14 +68,14 @@ class ClubsPage extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = clubItems[index];
           return SizedBox(
-            width: 91,
-            height: 96,
+            width: 96,
+            height: 91,
             child: GestureDetector(
               onTap: () {
                 if (item['onTap'] != null && item['onTap'] is Function) {
                   item['onTap']();
                 } else {
-                  _navigateToClubDetails(context);
+                  _handleItemTap(context, item);
                 }
               },
               child: Container(
@@ -80,18 +100,39 @@ class ClubsPage extends StatelessWidget {
     );
   }
 
-  void _navigateToClubDetails(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ClubDetails()),
-    );
+  void _handleItemTap(BuildContext context, Map<String, dynamic> item) {
+    if (item['clubs'] == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ClubDetails()),
+      );
+    } else if (item['classroom'] == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Classroom()),
+      );
+    } else if (item['bloodDonation'] == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const BloodDonation()),
+      );
+    } else if (item['notice'] == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const NoticePage()),
+      );
+    } else if (item['fund'] == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const FundRaising()),
+      );
+    }
   }
 
   Widget _buildClubItemContent(Map<String, dynamic> item) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: Text(
@@ -106,16 +147,15 @@ class ClubsPage extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-         const SizedBox(height: 10),
+        const SizedBox(height: 10),
         Image.asset(
           item['icon'],
-          height: 37,
-          width: 37,
+          height: 28,
+          width: 28,
           fit: BoxFit.contain,
           errorBuilder: (_, __, ___) =>
               const Icon(Icons.error_outline, size: 40),
         ),
-       
       ],
     );
   }

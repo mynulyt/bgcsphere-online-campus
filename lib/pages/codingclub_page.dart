@@ -83,7 +83,7 @@ class CodingClubPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Mynul Alam',
+                      'Iman Gadzhi',
                       style: TextStyle(
                         fontSize: 16,
                         color: Color(0xff768FCF),

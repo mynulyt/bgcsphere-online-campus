@@ -1,4 +1,3 @@
-import 'package:bgcsphere/pages/login.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {

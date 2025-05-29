@@ -17,7 +17,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 1,
-        backgroundColor: Color(0xffA2ACE0).withOpacity(0.13),
+        backgroundColor: const Color(0xffA2ACE0).withOpacity(0.13),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
           onPressed: () {
@@ -28,7 +28,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
           'Create Post',
           style: TextStyle(
             color: Color(0xff212329),
-          
             fontSize: 24,
           ),
         ),
@@ -36,13 +35,14 @@ class _CreatePostPageState extends State<CreatePostPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              
               height: 37,
-              decoration: BoxDecoration(color:Color(0xFF768FCF) ,
-              borderRadius: BorderRadius.circular(12),),
+              decoration: BoxDecoration(
+                color: const Color(0xFF768FCF),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xFF768FCF),
+                  backgroundColor: const Color(0xFF768FCF),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -50,7 +50,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 onPressed: () {},
                 child: const Text(
                   'Post',
-                  style: TextStyle(color: Colors.white,fontSize: 16),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
             ),
@@ -85,39 +85,56 @@ class _CreatePostPageState extends State<CreatePostPage> {
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Color(0xff6677CC).withOpacity(0.5)),
+                              border: Border.all(
+                                  color:
+                                      const Color(0xff6677CC).withOpacity(0.5)),
                             ),
                             child: const Row(
                               children: [
-                              
-                                Icon(Icons.group, size: 16,color: Color(0xff6677CC),),
+                                Icon(
+                                  Icons.group,
+                                  size: 16,
+                                  color: Color(0xff6677CC),
+                                ),
                                 SizedBox(width: 4),
-                                Text('Friends',style: TextStyle(color: Color(0xff536471)),),
-                                SizedBox(width: 4,),            
-                                  Icon(Icons.arrow_drop_down, size: 16),
+                                Text(
+                                  'Friends',
+                                  style: TextStyle(color: Color(0xff536471)),
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Icon(Icons.arrow_drop_down, size: 16),
                               ],
                             ),
                           ),
                           const SizedBox(width: 6),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                            
                               borderRadius: BorderRadius.circular(12),
-                             border: Border.all(color: Color(0xff6677CC).withOpacity(0.5)),
+                              border: Border.all(
+                                  color:
+                                      const Color(0xff6677CC).withOpacity(0.5)),
                             ),
                             child: const Row(
                               children: [
-                             
                                 SizedBox(width: 4),
-                                Icon(Icons.add,color: Color(0xff6677CC),size: 16,),
+                                Icon(
+                                  Icons.add,
+                                  color: Color(0xff6677CC),
+                                  size: 16,
+                                ),
                                 Text('Album'),
-                                 SizedBox(width: 4,),            
-                                  Icon(Icons.arrow_drop_down, size: 16),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Icon(Icons.arrow_drop_down, size: 16),
                               ],
                             ),
                           ),
@@ -135,11 +152,13 @@ class _CreatePostPageState extends State<CreatePostPage> {
               alignment: Alignment.centerLeft,
               child: Text(
                 'What is in your mind?',
-                style: TextStyle(fontSize: 24,color: Color(0xff536471),fontWeight: FontWeight.w100),
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Color(0xff536471),
+                    fontWeight: FontWeight.w100),
               ),
             ),
           ),
-          
           const SizedBox(height: 110),
           IconButton(
             icon: Icon(
@@ -194,4 +213,3 @@ class _CreatePostPageState extends State<CreatePostPage> {
     );
   }
 }
-

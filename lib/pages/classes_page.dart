@@ -65,7 +65,7 @@ class ClassesPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: Container(
                 width: 365,
                 height: 210,
@@ -97,7 +97,7 @@ class ClassesPage extends StatelessWidget {
                     const Text(
                       'Course Teather: Md. Asaduzzaman',
                       style: TextStyle(
-                        color:Color(0xff536471),
+                        color: Color(0xff536471),
                         fontSize: 16,
                       ),
                     ),
@@ -105,14 +105,15 @@ class ClassesPage extends StatelessWidget {
                     const Row(
                       children: [
                         Icon(Icons.calendar_today,
-                            size: 24, color:Color(0xff1E1E1E)),
+                            size: 24, color: Color(0xff1E1E1E)),
                         SizedBox(width: 6),
                         Text(
                           'Tuesday, 15 May',
-                          style: TextStyle(color:Color(0xff536471)),
+                          style: TextStyle(color: Color(0xff536471)),
                         ),
                         SizedBox(width: 16),
-                        Icon(Icons.access_time, size: 24, color: Color(0xff1E1E1E)),
+                        Icon(Icons.access_time,
+                            size: 24, color: Color(0xff1E1E1E)),
                         SizedBox(width: 6),
                         Text(
                           '9:00 PM',
@@ -128,15 +129,16 @@ class ClassesPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF6677CC),
+                            backgroundColor: const Color(0xFF6677CC),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
                           child: const Text(
                             'Join Class',
-                            style: TextStyle(fontSize: 16,color: Color(0xffFFFFFF)),
+                            style: TextStyle(
+                                fontSize: 16, color: Color(0xffFFFFFF)),
                           ),
                         ),
                       ),
