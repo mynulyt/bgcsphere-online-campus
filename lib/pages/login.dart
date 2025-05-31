@@ -20,7 +20,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   bool _isLoading = false;
   String? _error;
   bool _rememberMe = false;
-  bool _obscurePassword = true; // 👁️ password visibility toggle
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -28,15 +28,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
     _loadSavedCredentials();
 
-    // ✅ Auto-login if already signed in
-    if (FirebaseAuth.instance.currentUser != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (FirebaseAuth.instance.currentUser != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainPage()),
         );
-      });
-    }
+      }
+    });
   }
 
   void _loadSavedCredentials() async {
@@ -72,6 +71,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         await prefs.setBool('remember_me', false);
       }
 
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MainPage()),
@@ -319,7 +319,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           backgroundColor: Colors.white,
         ),
-        onPressed: () {}, // Add auth logic here
+        onPressed: () {}, // Future: Add social auth logic here
         icon: Image.asset(imagePath, height: 20),
         label: Text(text, style: const TextStyle(color: Colors.black)),
       ),

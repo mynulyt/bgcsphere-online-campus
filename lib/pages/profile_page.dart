@@ -1,6 +1,9 @@
 import 'package:bgcsphere/pages/blood_details.dart';
+import 'package:bgcsphere/pages/login.dart';
 import 'package:flutter/material.dart';
-import 'package:bgcsphere/pages/assetpage.dart'; // Replace with your actual BloodDetailsPage
+import 'package:firebase_auth/firebase_auth.dart';
+// Replace with your actual login page import
+import 'package:bgcsphere/pages/assetpage.dart'; // Replace with your actual AssetPage
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -65,8 +68,13 @@ class ProfilePage extends StatelessWidget {
           buildProfileButton("Help", Icons.help_outline, () {}),
           const Spacer(),
           TextButton(
-            onPressed: () {
-              // Sign out logic
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+                (route) => false,
+              );
             },
             child: const Text(
               "Sign Out",
