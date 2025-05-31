@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:bgcsphere/main.dart';
 import 'package:bgcsphere/pages/forget_password.dart';
 import 'package:bgcsphere/pages/register.dart';
-import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,6 +13,11 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool _isLoading = false;
+  String? _error;
 
   @override
   void initState() {
@@ -22,7 +28,37 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _tabController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  void _loginWithEmail() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      // Navigate to MainPage on success
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _error = e.message;
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -71,14 +107,6 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
                             borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
                           ),
                           child: TabBar(
                             controller: _tabController,
@@ -110,12 +138,12 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
-                          height: 500, // set appropriate height
+                          height: 500,
                           child: TabBarView(
                             controller: _tabController,
                             children: [
                               _buildLoginForm(),
-                              const Register(), // directly use your Register widget here
+                              const Register(),
                             ],
                           ),
                         ),
@@ -138,16 +166,11 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         const Text("Email address"),
         const SizedBox(height: 5),
         TextFormField(
+          controller: _emailController,
+          keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintStyle: TextStyle(
-                color: Colors.black.withOpacity(0.4),
-                fontWeight: FontWeight.normal),
             hintText: "mynul@gmail.com",
             prefixIcon: const Icon(Icons.email_outlined),
-            suffixIcon: const Icon(
-              Icons.info,
-              color: Colors.blueAccent,
-            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -157,23 +180,22 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         const Text("Password"),
         const SizedBox(height: 5),
         TextFormField(
+          controller: _passwordController,
           obscureText: true,
           decoration: InputDecoration(
-            hintStyle: TextStyle(
-                color: Colors.black.withOpacity(0.4),
-                fontWeight: FontWeight.normal),
             hintText: "Enter your password",
             prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: const Icon(
-              Icons.visibility_outlined,
-              color: Color(0xff6677CC),
-            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
           ),
         ),
         const SizedBox(height: 10),
+        if (_error != null)
+          Text(
+            _error!,
+            style: const TextStyle(color: Colors.red, fontSize: 12),
+          ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -185,14 +207,15 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ForgetPassword()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ForgetPassword()),
+                );
               },
               child: Text(
                 "Forgot Password?",
-                style: TextStyle(color: Colors.purple[150], fontSize: 12),
+                style: TextStyle(color: Colors.blue[700], fontSize: 12),
               ),
             ),
           ],
@@ -206,14 +229,11 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const MainPage()));
-          },
-          child: const Text(
-            "Log in",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
+          onPressed: _isLoading ? null : _loginWithEmail,
+          child: _isLoading
+              ? const CircularProgressIndicator(color: Colors.white)
+              : const Text("Log in",
+                  style: TextStyle(color: Colors.white, fontSize: 20)),
         ),
         const SizedBox(height: 20),
         const Center(child: Text("— OR —")),
@@ -226,7 +246,6 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             _socialLoginButton("Facebook", "images/Facebook.png"),
           ],
         ),
-        const SizedBox(height: 20),
       ],
     );
   }
@@ -247,8 +266,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          backgroundColor: Colors.white,
         ),
-        onPressed: () {},
+        onPressed: () {}, // You can implement Google/Facebook auth here
         icon: Image.asset(imagePath, height: 20),
         label: Text(text, style: const TextStyle(color: Colors.black)),
       ),

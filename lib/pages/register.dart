@@ -21,6 +21,8 @@ class _RegisterState extends State<Register>
   final TextEditingController districtController = TextEditingController();
   final TextEditingController tanaController = TextEditingController();
   final TextEditingController unionController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
 
   final List<String> _bloodGroups = [
     'A+',
@@ -59,8 +61,10 @@ class _RegisterState extends State<Register>
         'division': divisionController.text.trim(),
         'district': districtController.text.trim(),
         'tana': tanaController.text.trim(),
+        'gender': genderController.text.trim(),
         'union': unionController.text.trim(),
         'createdAt': FieldValue.serverTimestamp(),
+        'dob': dobController.text.trim(), // 👈 Add this line
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,6 +81,9 @@ class _RegisterState extends State<Register>
       districtController.clear();
       tanaController.clear();
       unionController.clear();
+      genderController.clear();
+      dobController.clear();
+
       setState(() => _selectedBloodGroup = null);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -178,6 +185,38 @@ class _RegisterState extends State<Register>
           onChanged: (newValue) {
             setState(() => _selectedBloodGroup = newValue);
           },
+        ),
+        const SizedBox(height: 20),
+        const Text("Gender"),
+        const SizedBox(height: 5),
+        _buildTextField(
+            Icons.person, "Male / Female / Other", genderController),
+        const SizedBox(height: 20),
+        const Text("Date of Birth"),
+        const SizedBox(height: 5),
+        TextFormField(
+          controller: dobController,
+          readOnly: true,
+          onTap: () async {
+            DateTime? pickedDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime(2000),
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+            );
+            if (pickedDate != null) {
+              String formattedDate =
+                  "${pickedDate.day}-${pickedDate.month}-${pickedDate.year}";
+              setState(() {
+                dobController.text = formattedDate;
+              });
+            }
+          },
+          decoration: InputDecoration(
+            hintText: "Select your date of birth",
+            prefixIcon: const Icon(Icons.calendar_today),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          ),
         ),
         const SizedBox(height: 20),
         const Text("Division"),
