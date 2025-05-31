@@ -1,4 +1,5 @@
 import 'package:bgcsphere/pages/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/category_page.dart';
 import 'package:bgcsphere/pages/chat_page.dart';
@@ -9,7 +10,9 @@ import 'package:bgcsphere/pages/notifications_page.dart';
 import 'package:bgcsphere/pages/profile_page.dart';
 import 'package:bgcsphere/pages/set_images.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
