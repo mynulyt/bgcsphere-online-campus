@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bgcsphere/main.dart';
 import 'package:bgcsphere/pages/forget_password.dart';
 import 'package:bgcsphere/pages/register.dart';
@@ -18,19 +19,22 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
   bool _isLoading = false;
   String? _error;
+  bool _rememberMe = false;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _loadSavedCredentials();
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  void _loadSavedCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _emailController.text = prefs.getString('saved_email') ?? '';
+      _passwordController.text = prefs.getString('saved_password') ?? '';
+      _rememberMe = prefs.getBool('remember_me') ?? false;
+    });
   }
 
   void _loginWithEmail() async {
@@ -45,7 +49,18 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         password: _passwordController.text.trim(),
       );
 
-      // Navigate to MainPage on success
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (_rememberMe) {
+        await prefs.setString('saved_email', _emailController.text.trim());
+        await prefs.setString(
+            'saved_password', _passwordController.text.trim());
+        await prefs.setBool('remember_me', true);
+      } else {
+        await prefs.remove('saved_email');
+        await prefs.remove('saved_password');
+        await prefs.setBool('remember_me', false);
+      }
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MainPage()),
@@ -59,6 +74,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         _isLoading = false;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -201,7 +224,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           children: [
             Row(
               children: [
-                Checkbox(value: true, onChanged: (val) {}),
+                Checkbox(
+                  value: _rememberMe,
+                  onChanged: (val) {
+                    setState(() {
+                      _rememberMe = val ?? false;
+                    });
+                  },
+                ),
                 const Text("Remember me"),
               ],
             ),
@@ -268,7 +298,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           backgroundColor: Colors.white,
         ),
-        onPressed: () {}, // You can implement Google/Facebook auth here
+        onPressed: () {}, // Add auth logic here
         icon: Image.asset(imagePath, height: 20),
         label: Text(text, style: const TextStyle(color: Colors.black)),
       ),
