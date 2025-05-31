@@ -20,6 +20,8 @@ class AuthService {
     required String district,
     required String tana,
     required String union,
+    required String gender,
+    required String dob,
   }) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
@@ -31,13 +33,15 @@ class AuthService {
           'uid': user.uid,
           'name': name,
           'email': email,
-          'internalId': internalId,
+          'internal_id': internalId,
           'phone': phone,
-          'bloodGroup': bloodGroup,
+          'blood_group': bloodGroup,
           'division': division,
           'district': district,
           'tana': tana,
           'union': union,
+          'gender': gender,
+          'dob': dob,
           'createdAt': FieldValue.serverTimestamp(),
         });
       }

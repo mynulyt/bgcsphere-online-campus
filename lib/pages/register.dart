@@ -1,5 +1,6 @@
+// File: register.dart
+import 'package:bgcsphere/Database/auth_services.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -36,6 +37,10 @@ class _RegisterState extends State<Register>
   ];
   String? _selectedBloodGroup;
 
+  final AuthService _authService = AuthService();
+
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +48,24 @@ class _RegisterState extends State<Register>
   }
 
   Future<void> _registerUser() async {
+    // Validate all required fields
+    if (nameController.text.trim().isEmpty ||
+        emailController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty ||
+        idController.text.trim().isEmpty ||
+        phoneController.text.trim().isEmpty ||
+        divisionController.text.trim().isEmpty ||
+        districtController.text.trim().isEmpty ||
+        tanaController.text.trim().isEmpty ||
+        unionController.text.trim().isEmpty ||
+        genderController.text.trim().isEmpty ||
+        dobController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill all fields")),
+      );
+      return;
+    }
+
     if (_selectedBloodGroup == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please select your blood group")),
@@ -50,46 +73,60 @@ class _RegisterState extends State<Register>
       return;
     }
 
-    try {
-      await FirebaseFirestore.instance.collection('users').add({
-        'name': nameController.text.trim(),
-        'email': emailController.text.trim(),
-        'password': passwordController.text.trim(),
-        'internal_id': idController.text.trim(),
-        'phone': phoneController.text.trim(),
-        'blood_group': _selectedBloodGroup,
-        'division': divisionController.text.trim(),
-        'district': districtController.text.trim(),
-        'tana': tanaController.text.trim(),
-        'gender': genderController.text.trim(),
-        'union': unionController.text.trim(),
-        'createdAt': FieldValue.serverTimestamp(),
-        'dob': dobController.text.trim(), // 👈 Add this line
-      });
+    setState(() {
+      _isLoading = true;
+    });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User registered successfully!")),
+    try {
+      String? result = await _authService.signUp(
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        internalId: idController.text.trim(),
+        phone: phoneController.text.trim(),
+        bloodGroup: _selectedBloodGroup!,
+        division: divisionController.text.trim(),
+        district: districtController.text.trim(),
+        tana: tanaController.text.trim(),
+        union: unionController.text.trim(),
+        gender: genderController.text.trim(),
+        dob: dobController.text.trim(),
       );
 
-      // Clear fields
-      nameController.clear();
-      emailController.clear();
-      passwordController.clear();
-      idController.clear();
-      phoneController.clear();
-      divisionController.clear();
-      districtController.clear();
-      tanaController.clear();
-      unionController.clear();
-      genderController.clear();
-      dobController.clear();
-
-      setState(() => _selectedBloodGroup = null);
+      if (result == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User registered successfully!")),
+        );
+        _clearFields();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result)),
+        );
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Registration failed: $e")),
       );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
+  }
+
+  void _clearFields() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    idController.clear();
+    phoneController.clear();
+    divisionController.clear();
+    districtController.clear();
+    tanaController.clear();
+    unionController.clear();
+    genderController.clear();
+    dobController.clear();
+    setState(() => _selectedBloodGroup = null);
   }
 
   @override
@@ -142,32 +179,78 @@ class _RegisterState extends State<Register>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Your Name"),
-        const SizedBox(height: 5),
-        _buildTextField(
-            Icons.person_outlined, "Your Full Name", nameController),
-        const SizedBox(height: 20),
-        const Text("Email address"),
-        const SizedBox(height: 5),
-        _buildTextField(
-            Icons.email_outlined, "bgc@sphere.com", emailController),
-        const SizedBox(height: 20),
-        const Text("Password"),
-        const SizedBox(height: 5),
-        _buildTextField(
-            Icons.lock_outline, "Enter your password", passwordController,
+        _buildLabelAndField("Your Name", Icons.person_outlined,
+            "Your Full Name", nameController),
+        _buildLabelAndField("Email address", Icons.email_outlined,
+            "bgc@sphere.com", emailController),
+        _buildLabelAndField("Password", Icons.lock_outline,
+            "Enter your password", passwordController,
             obscure: true),
+        _buildLabelAndField(
+            "Internal ID", Icons.roller_shades, "2402390****", idController),
+        _buildLabelAndField("Phone Number", Icons.contact_emergency,
+            "019********", phoneController),
+        _buildDropdown("Blood Group"),
+        _buildLabelAndField(
+            "Gender", Icons.person, "Male / Female / Other", genderController),
+        _buildDateField(),
+        _buildLabelAndField(
+            "Division", Icons.add, "Enter your Division", divisionController),
+        _buildLabelAndField(
+            "District", Icons.add, "Enter your District", districtController),
+        _buildLabelAndField(
+            "Tana", Icons.add, "Enter your Tana", tanaController),
+        _buildLabelAndField(
+            "Union", Icons.add, "Enter your Union", unionController),
+        const SizedBox(height: 30),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xff6677CC),
+            minimumSize: const Size(double.infinity, 50),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          ),
+          onPressed: _isLoading ? null : _registerUser,
+          child: _isLoading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : const Text("Register",
+                  style: TextStyle(color: Colors.white, fontSize: 20)),
+        ),
         const SizedBox(height: 20),
-        const Text("Internal ID"),
+      ],
+    );
+  }
+
+  Widget _buildLabelAndField(String label, IconData icon, String hint,
+      TextEditingController controller,
+      {bool obscure = false}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
         const SizedBox(height: 5),
-        _buildTextField(Icons.roller_shades, "2402390****", idController),
+        TextFormField(
+          controller: controller,
+          obscureText: obscure,
+          decoration: InputDecoration(
+            hintStyle: TextStyle(color: Colors.black.withOpacity(0.4)),
+            hintText: hint,
+            prefixIcon: Icon(icon),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
         const SizedBox(height: 20),
-        const Text("Phone Number"),
-        const SizedBox(height: 5),
-        _buildTextField(
-            Icons.contact_emergency, "019********", phoneController),
-        const SizedBox(height: 20),
-        const Text("Blood Group"),
+      ],
+    );
+  }
+
+  Widget _buildDropdown(String label) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
         const SizedBox(height: 5),
         DropdownButtonFormField<String>(
           value: _selectedBloodGroup,
@@ -187,11 +270,14 @@ class _RegisterState extends State<Register>
           },
         ),
         const SizedBox(height: 20),
-        const Text("Gender"),
-        const SizedBox(height: 5),
-        _buildTextField(
-            Icons.person, "Male / Female / Other", genderController),
-        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildDateField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         const Text("Date of Birth"),
         const SizedBox(height: 5),
         TextFormField(
@@ -219,86 +305,7 @@ class _RegisterState extends State<Register>
           ),
         ),
         const SizedBox(height: 20),
-        const Text("Division"),
-        const SizedBox(height: 5),
-        _buildTextField(Icons.add, "Enter your Division", divisionController),
-        const SizedBox(height: 20),
-        const Text("District"),
-        const SizedBox(height: 5),
-        _buildTextField(
-            Icons.add, "Enter your District...", districtController),
-        const SizedBox(height: 20),
-        const Text("Tana"),
-        const SizedBox(height: 5),
-        _buildTextField(Icons.add, "Enter your Tana...", tanaController),
-        const SizedBox(height: 20),
-        const Text("Union"),
-        const SizedBox(height: 5),
-        _buildTextField(Icons.add, "Enter your Union", unionController),
-        const SizedBox(height: 30),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xff6677CC),
-            minimumSize: const Size(double.infinity, 50),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          ),
-          onPressed: _registerUser,
-          child: const Text("Register",
-              style: TextStyle(color: Colors.white, fontSize: 20)),
-        ),
-        const SizedBox(height: 20),
-        const Center(child: Text("— OR —")),
-        const SizedBox(height: 15),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _socialLoginButton("Google", "images/google.png"),
-            const SizedBox(width: 15),
-            _socialLoginButton("Facebook", "images/Facebook.png"),
-          ],
-        ),
-        const SizedBox(height: 20),
       ],
-    );
-  }
-
-  Widget _buildTextField(
-      IconData icon, String hint, TextEditingController controller,
-      {bool obscure = false}) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscure,
-      decoration: InputDecoration(
-        hintStyle: TextStyle(color: Colors.black.withOpacity(0.4)),
-        hintText: hint,
-        prefixIcon: Icon(icon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
-  }
-
-  Widget _socialLoginButton(String text, String imagePath) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.blue.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 8),
-        ],
-      ),
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        ),
-        onPressed: () {
-          // TODO: Social login logic
-        },
-        icon: Image.asset(imagePath, height: 20),
-        label: Text(text, style: const TextStyle(color: Colors.black)),
-      ),
     );
   }
 }
