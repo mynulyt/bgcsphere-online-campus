@@ -2,8 +2,8 @@ import 'package:bgcsphere/pages/blood_details.dart';
 import 'package:bgcsphere/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// Replace with your actual login page import
-import 'package:bgcsphere/pages/assetpage.dart'; // Replace with your actual AssetPage
+
+import 'package:bgcsphere/pages/assetpage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
