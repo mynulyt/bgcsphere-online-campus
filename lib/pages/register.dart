@@ -1,5 +1,7 @@
 // File: register.dart
 import 'package:bgcsphere/Database/auth_services.dart';
+import 'package:bgcsphere/main.dart';
+
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -48,7 +50,6 @@ class _RegisterState extends State<Register>
   }
 
   Future<void> _registerUser() async {
-    // Validate all required fields
     if (nameController.text.trim().isEmpty ||
         emailController.text.trim().isEmpty ||
         passwordController.text.trim().isEmpty ||
@@ -98,6 +99,12 @@ class _RegisterState extends State<Register>
           const SnackBar(content: Text("User registered successfully!")),
         );
         _clearFields();
+
+        // ✅ Navigate to MainPage after successful registration
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(result)),
@@ -212,9 +219,7 @@ class _RegisterState extends State<Register>
           ),
           onPressed: _isLoading ? null : _registerUser,
           child: _isLoading
-              ? const CircularProgressIndicator(
-                  color: Colors.white,
-                )
+              ? const CircularProgressIndicator(color: Colors.white)
               : const Text("Register",
                   style: TextStyle(color: Colors.white, fontSize: 20)),
         ),

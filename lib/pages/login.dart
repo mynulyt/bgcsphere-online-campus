@@ -20,12 +20,23 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   bool _isLoading = false;
   String? _error;
   bool _rememberMe = false;
+  bool _obscurePassword = true; // 👁️ password visibility toggle
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _loadSavedCredentials();
+
+    // ✅ Auto-login if already signed in
+    if (FirebaseAuth.instance.currentUser != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
+      });
+    }
   }
 
   void _loadSavedCredentials() async {
@@ -204,10 +215,20 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         const SizedBox(height: 5),
         TextFormField(
           controller: _passwordController,
-          obscureText: true,
+          obscureText: _obscurePassword,
           decoration: InputDecoration(
             hintText: "Enter your password",
             prefixIcon: const Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
