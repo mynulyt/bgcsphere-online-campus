@@ -48,42 +48,65 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   }
 
   void _loginWithEmail() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      setState(() => _error = 'Please fill in all fields');
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _error = null;
     });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (_rememberMe) {
-        await prefs.setString('saved_email', _emailController.text.trim());
-        await prefs.setString(
-            'saved_password', _passwordController.text.trim());
-        await prefs.setBool('remember_me', true);
-      } else {
-        await prefs.remove('saved_email');
-        await prefs.remove('saved_password');
-        await prefs.setBool('remember_me', false);
-      }
+      if (userCredential.user != null) {
+        final prefs = await SharedPreferences.getInstance();
+        if (_rememberMe) {
+          await prefs.setString('saved_email', _emailController.text.trim());
+          await prefs.setString(
+              'saved_password', _passwordController.text.trim());
+          await prefs.setBool('remember_me', true);
+        } else {
+          await prefs.remove('saved_email');
+          await prefs.remove('saved_password');
+          await prefs.setBool('remember_me', false);
+        }
 
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainPage()),
-      );
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        _error = e.message;
-      });
+      String errorMessage;
+      switch (e.code) {
+        case 'invalid-email':
+          errorMessage = 'Invalid email format';
+          break;
+        case 'user-disabled':
+          errorMessage = 'This account has been disabled';
+          break;
+        case 'user-not-found':
+        case 'wrong-password':
+          errorMessage = 'Invalid email or password';
+          break;
+        default:
+          errorMessage = 'Login failed. Please try again';
+      }
+      setState(() => _error = errorMessage);
+    } catch (e) {
+      setState(() => _error = 'An unexpected error occurred');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
