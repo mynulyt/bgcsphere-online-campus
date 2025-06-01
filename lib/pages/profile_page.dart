@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 radius: 50,
                 backgroundImage: profileImageUrl.isNotEmpty
                     ? NetworkImage(profileImageUrl)
-                    : Icon(Icons.person) as ImageProvider,
+                    : const AssetImage("images/profile.jfif") as ImageProvider,
               ),
               GestureDetector(
                 onTap: showImagePickerOptions,

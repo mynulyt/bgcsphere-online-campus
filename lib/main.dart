@@ -108,7 +108,7 @@ class MainPageState extends State<MainPage> {
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
-                backgroundImage: AssetImage("images/profile.jpg"),
+                backgroundImage: AssetImage("images/profile.jfif"),
               ),
             ),
           ),

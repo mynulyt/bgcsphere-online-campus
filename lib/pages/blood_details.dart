@@ -73,7 +73,7 @@ class _BloodDetailsState extends State<BloodDetails> {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage("images/profile.jpg"),
+                  backgroundImage: AssetImage("images/profile.jfif"),
                 ),
                 Positioned(
                   right: 4,
