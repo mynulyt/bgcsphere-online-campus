@@ -197,10 +197,6 @@ class MainPageState extends State<MainPage> {
             icon: Icon(Icons.notifications),
             label: 'Notifications',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
         ],
       ),
     );

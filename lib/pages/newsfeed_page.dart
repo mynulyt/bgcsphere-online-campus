@@ -135,10 +135,6 @@ class _NewsfeedPageState extends State<NewsfeedPage> {
             icon: Icon(Icons.notifications_outlined),
             label: 'Notifications',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message_outlined),
-            label: 'Chat',
-          ),
         ],
       ),
     );

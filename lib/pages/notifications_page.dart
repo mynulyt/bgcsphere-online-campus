@@ -130,10 +130,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
               icon: Icon(Icons.notifications),
               label: 'Notifications',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline),
-              label: 'Chat',
-            ),
           ],
         ),
       ),
