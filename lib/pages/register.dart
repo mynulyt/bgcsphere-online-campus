@@ -1,6 +1,7 @@
 // File: register.dart
 import 'package:bgcsphere/Database/auth_services.dart';
 import 'package:bgcsphere/main.dart';
+import 'package:bgcsphere/pages/main_page.dart';
 
 import 'package:flutter/material.dart';
 

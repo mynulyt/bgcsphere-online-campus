@@ -1,6 +1,7 @@
 import 'package:bgcsphere/main.dart';
 import 'package:bgcsphere/pages/category_page.dart';
 import 'package:bgcsphere/pages/chat_page.dart';
+import 'package:bgcsphere/pages/main_page.dart';
 import 'package:bgcsphere/pages/notifications_page.dart';
 import 'package:flutter/material.dart';
 
