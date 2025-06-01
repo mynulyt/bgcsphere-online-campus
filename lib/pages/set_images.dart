@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class SetImages extends StatefulWidget {
   const SetImages({super.key});
@@ -9,38 +9,33 @@ class SetImages extends StatefulWidget {
 }
 
 class _SetImagesState extends State<SetImages> {
-  final PageController _controller = PageController();
+  final List<String> images = [
+    "images/bgc.png",
+    "images/bgc1.png",
+    "images/bgc2.png",
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 152,
-          child: PageView(
-            controller: _controller,
-            scrollDirection: Axis.horizontal,
-            children: [
-              Image.asset("images/bgc.png", width: 247, height: 152),
-              Image.asset("images/bgc1.png", width: 247, height: 152),
-              Image.asset("images/bgc2.png", width: 247, height: 152),
-            ],
-          ),
-        ),
-        const SizedBox(height: 10),
-        SmoothPageIndicator(
-          controller: _controller,
-          count: 4,
-          effect: ExpandingDotsEffect(
-            activeDotColor: const Color(0xffA4A1E6).withOpacity(0.15),
-            dotColor: Colors.grey.shade300,
-            dotHeight: 3.58,
-            dotWidth: 3.58,
-            expansionFactor: 2,
-            spacing: 5,
-          ),
-        ),
-      ],
-    );
+    return Column(children: [
+      // Auto-sliding swiper with 3 second interval
+      VxSwiper.builder(
+        itemCount: images.length,
+        height: 152,
+        autoPlay: true,
+        autoPlayAnimationDuration: const Duration(seconds: 1),
+        autoPlayInterval: const Duration(seconds: 3),
+        enlargeCenterPage: true,
+        viewportFraction: 0.8,
+        itemBuilder: (context, index) {
+          return Image.asset(
+            images[index],
+            width: 347,
+            height: 152,
+            fit: BoxFit.cover,
+          ).box.roundedSM.clip(Clip.antiAlias).make();
+        },
+      ),
+    ]);
   }
 }

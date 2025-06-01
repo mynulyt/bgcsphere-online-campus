@@ -44,7 +44,8 @@ dependencies:
   cloud_firestore:
   shared_preferences: ^2.5.3
   image_picker: ^1.1.2
-
+  velocity_x: 4.2.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
