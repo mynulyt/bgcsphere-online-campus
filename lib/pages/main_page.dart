@@ -2,7 +2,7 @@ import 'package:bgcsphere/pages/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/category_page.dart';
-import 'package:bgcsphere/pages/chat_page.dart';
+
 import 'package:bgcsphere/pages/clubs_page.dart';
 import 'package:bgcsphere/pages/create_post_page.dart';
 import 'package:bgcsphere/pages/newsfeed_page.dart';
@@ -61,12 +61,6 @@ class MainPageState extends State<MainPage> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const NotificationsPage()),
-        );
-        break;
-      case 3:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ChatPage()),
         );
         break;
     }

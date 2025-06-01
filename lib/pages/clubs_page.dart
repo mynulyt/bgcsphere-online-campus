@@ -1,4 +1,5 @@
 import 'package:bgcsphere/pages/blood_donation.dart';
+import 'package:bgcsphere/pages/chat_page.dart';
 import 'package:bgcsphere/pages/club_details.dart';
 import 'package:bgcsphere/pages/classroom.dart';
 import 'package:bgcsphere/pages/fund_raising.dart';
@@ -49,6 +50,12 @@ class ClubsPage extends StatelessWidget {
       'color': const Color(0xFFE59EC1),
       'icon': 'images/notice.png',
       'notice': true,
+    },
+    {
+      'title': 'Let\' Chat',
+      'color': const Color(0xFF36AD52).withOpacity(0.48),
+      'icon': 'images/chatt.jfif',
+      'chat': true,
     },
   ];
 
@@ -125,6 +132,11 @@ class ClubsPage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const FundRaising()),
+      );
+    } else if (item['chat'] == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ChatPage()),
       );
     }
   }

@@ -36,12 +36,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
       case 2:
         break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ChatPage()),
-        );
-        break;
     }
   }
 

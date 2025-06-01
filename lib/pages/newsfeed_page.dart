@@ -63,12 +63,6 @@ class _NewsfeedPageState extends State<NewsfeedPage> {
           MaterialPageRoute(builder: (context) => const NotificationsPage()),
         );
         break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ChatPage()),
-        );
-        break;
     }
   }
 
