@@ -105,7 +105,7 @@ class ClubDetails extends StatelessWidget {
               ),
             ),
             Image.asset('images/clubs.png'),
-            ClubsPage(
+            HomeItems(
               customItems: (customItems ?? defaultClubItems).map((item) {
                 return {
                   ...item,

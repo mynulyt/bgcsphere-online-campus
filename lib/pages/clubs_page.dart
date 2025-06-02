@@ -6,10 +6,10 @@ import 'package:bgcsphere/pages/fund_raising.dart';
 import 'package:bgcsphere/pages/notice_page.dart';
 import 'package:flutter/material.dart';
 
-class ClubsPage extends StatelessWidget {
+class HomeItems extends StatelessWidget {
   final List<Map<String, dynamic>> clubItems;
 
-  ClubsPage({
+  HomeItems({
     super.key,
     List<Map<String, dynamic>>? customItems,
   }) : clubItems = customItems ?? _defaultClubItems;

@@ -154,7 +154,7 @@ class _BloodDonationState extends State<BloodDonation> {
               ),
             ),
             const SizedBox(height: 0),
-            ClubsPage(
+            HomeItems(
               customItems:
                   (widget.customItems ?? BloodDonation.defaultClubItems)
                       .map((item) {

@@ -111,7 +111,7 @@ class FundRaising extends StatelessWidget {
                 ),
               ],
             ),
-            ClubsPage(
+            HomeItems(
               customItems: (customItems ?? defaultClubItems).map((item) {
                 return {
                   ...item,

@@ -171,7 +171,7 @@ class MainPageState extends State<MainPage> {
             children: [
               const SetImages(),
               const SizedBox(height: 16),
-              ClubsPage(),
+              HomeItems(),
             ],
           ),
         ),

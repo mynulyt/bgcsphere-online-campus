@@ -131,7 +131,7 @@ class Classroom extends StatelessWidget {
                 ),
               ],
             ),
-            ClubsPage(
+            HomeItems(
               customItems: (customItems ?? defaultClubItems).map((item) {
                 return {
                   ...item,
