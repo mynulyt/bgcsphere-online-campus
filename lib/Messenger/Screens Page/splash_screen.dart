@@ -5,14 +5,14 @@ import 'package:bgcsphere/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashScreen2 extends StatefulWidget {
+  const SplashScreen2({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen2> createState() => _SplashScreen2State();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreen2State extends State<SplashScreen2> {
   @override
   void initState() {
     // TODO: implement initState

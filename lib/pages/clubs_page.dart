@@ -1,3 +1,4 @@
+import 'package:bgcsphere/Messenger/Screens%20Page/splash_screen.dart';
 import 'package:bgcsphere/pages/blood_donation.dart';
 import 'package:bgcsphere/pages/chat_page.dart';
 import 'package:bgcsphere/pages/club_details.dart';
@@ -136,7 +137,7 @@ class HomeItems extends StatelessWidget {
     } else if (item['chat'] == true) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ChatPage()),
+        MaterialPageRoute(builder: (context) => const SplashScreen2()),
       );
     }
   }
