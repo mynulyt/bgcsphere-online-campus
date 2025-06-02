@@ -155,7 +155,7 @@ class _RegisterState extends State<Register>
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),

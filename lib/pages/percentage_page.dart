@@ -58,12 +58,13 @@ class PercentagePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Course Name: $courseName',
+                            'Course Name: ${courseName.split(' ').take(2).join(' ')}\n${courseName.split(' ').skip(2).join(' ')}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Color(0xFF768FCF),
                               fontSize: 16,
                             ),
+                            softWrap: true, // Ensures text wraps to next line
                           ),
                           const SizedBox(height: 10),
                           Text(
