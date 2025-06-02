@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bgcsphere/pages/blood_details.dart';
 import 'package:bgcsphere/pages/login.dart';
+import 'package:bgcsphere/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -113,6 +114,78 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Future<void> _deleteAccount() async {
+    try {
+      // Show confirmation dialog
+      bool confirmDelete = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Delete Account'),
+            content: const Text(
+                'Are you sure you want to delete your account? This action cannot be undone.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              TextButton(
+                child:
+                    const Text('Delete', style: TextStyle(color: Colors.red)),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        },
+      );
+
+      if (confirmDelete == true) {
+        // Delete user data from Firestore
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          // Delete profile picture from storage if exists
+          if (profileImageUrl.isNotEmpty) {
+            try {
+              await FirebaseStorage.instance
+                  .refFromURL(profileImageUrl)
+                  .delete();
+            } catch (e) {
+              print("Error deleting profile picture: $e");
+            }
+          }
+
+          // Delete user document from Firestore
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .delete();
+
+          // Delete user from Firebase Auth
+          await user.delete();
+
+          // Navigate to login screen
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const Login()),
+            (route) => false,
+          );
+        }
+      }
+    } catch (e) {
+      print("Error deleting account: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting account: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,70 +203,92 @@ class _ProfilePageState extends State<ProfilePage> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundImage: profileImageUrl.isNotEmpty
-                    ? NetworkImage(profileImageUrl)
-                    : const AssetImage("images/profile.jfif") as ImageProvider,
-              ),
-              GestureDetector(
-                onTap: showImagePickerOptions,
-                child: const CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.edit, size: 16, color: Colors.black),
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: profileImageUrl.isNotEmpty
+                      ? NetworkImage(profileImageUrl)
+                      : const AssetImage("images/profile.jfif")
+                          as ImageProvider,
                 ),
+                GestureDetector(
+                  onTap: showImagePickerOptions,
+                  child: const CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.edit, size: 16, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Text(
+              name,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF768FCF),
               ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w400,
-              color: Color(0xFF768FCF),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            email,
-            style: const TextStyle(color: Colors.grey),
-          ),
-          const SizedBox(height: 30),
-          buildProfileButton("Setting", Icons.settings, () {}),
-          buildProfileButton("Contact", Icons.phone, () {}),
-          buildProfileButton("Blood Details", Icons.bloodtype, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const BloodDetails()),
-            );
-          }),
-          buildProfileButton("Share App", Icons.share, () {}),
-          buildProfileButton("Help", Icons.help_outline, () {}),
-          const Spacer(),
-          TextButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushAndRemoveUntil(
+            const SizedBox(height: 4),
+            Text(
+              email,
+              style: const TextStyle(color: Colors.grey),
+            ),
+            const SizedBox(height: 30),
+            buildProfileButton("Setting", Icons.settings, () {
+              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Login()),
-                (route) => false,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
               );
-            },
-            child: const Text(
-              "Sign Out",
-              style: TextStyle(color: Color(0xff768FCF), fontSize: 24),
+            }),
+            buildProfileButton("Contact", Icons.phone, () {}),
+            buildProfileButton("Blood Details", Icons.bloodtype, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BloodDetails()),
+              );
+            }),
+            buildProfileButton("Share App", Icons.share, () {}),
+            buildProfileButton("Help", Icons.help_outline, () {}),
+
+            SizedBox(
+              height: 200.0,
             ),
-          ),
-          const SizedBox(height: 20),
-        ],
+
+            // Delete Account Button
+            TextButton(
+              onPressed: _deleteAccount,
+              child: const Text(
+                "Delete Account",
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              ),
+            ),
+            // Sign Out Button
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                  (route) => false,
+                );
+              },
+              child: const Text(
+                "Sign Out",
+                style: TextStyle(color: Color(0xff768FCF), fontSize: 24),
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
