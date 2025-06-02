@@ -1,6 +1,6 @@
-import 'package:bgcsphere/Messenger/Screens%20Page/splash_screen.dart';
+import 'package:bgcsphere/Messenger/hea.dart';
 import 'package:bgcsphere/pages/blood_donation.dart';
-import 'package:bgcsphere/pages/chat_page.dart';
+
 import 'package:bgcsphere/pages/club_details.dart';
 import 'package:bgcsphere/pages/classroom.dart';
 import 'package:bgcsphere/pages/fund_raising.dart';
@@ -137,7 +137,7 @@ class HomeItems extends StatelessWidget {
     } else if (item['chat'] == true) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SplashScreen2()),
+        MaterialPageRoute(builder: (context) => const MyApp2()),
       );
     }
   }
