@@ -39,24 +39,6 @@ class _SetImagesState extends State<SetImages> {
     });
   }
 
-  void _nextImage() {
-    _currentIndex = (_currentIndex + 1) % images.length;
-    _pageController.animateToPage(
-      _currentIndex,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  void _prevImage() {
-    _currentIndex = (_currentIndex - 1 + images.length) % images.length;
-    _pageController.animateToPage(
-      _currentIndex,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-  }
-
   @override
   void dispose() {
     _autoPlayTimer?.cancel();
@@ -94,18 +76,30 @@ class _SetImagesState extends State<SetImages> {
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: _prevImage,
-                icon: const Icon(Icons.arrow_back),
+            children: List.generate(
+              images.length,
+              (index) => GestureDetector(
+                onTap: () {
+                  _pageController.animateToPage(
+                    index,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Container(
+                  width: 8,
+                  height: 8,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentIndex == index
+                        ? Colors.blue
+                        : Colors.grey.withOpacity(0.5),
+                  ),
+                ),
               ),
-              Text("${_currentIndex + 1} / ${images.length}"),
-              IconButton(
-                onPressed: _nextImage,
-                icon: const Icon(Icons.arrow_forward),
-              ),
-            ],
-          )
+            ),
+          ),
         ],
       ),
     );

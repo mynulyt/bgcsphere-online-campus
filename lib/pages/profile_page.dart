@@ -20,6 +20,14 @@ class _ProfilePageState extends State<ProfilePage> {
   String email = 'Loading...';
   String profileImageUrl = '';
   final ImagePicker _picker = ImagePicker();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isDeleting = false;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -85,6 +93,12 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     } catch (e) {
       print("Error updating profile picture: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to update profile picture: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -114,72 +128,150 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future<void> _deleteAccount() async {
-    try {
-      // Show confirmation dialog
-      bool confirmDelete = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Delete Account'),
-            content: const Text(
-                'Are you sure you want to delete your account? This action cannot be undone.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
+  Future<void> _showDeleteAccountDialog() async {
+    bool? confirmDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Account'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'This will permanently delete your account and all data. To confirm, please enter your password:',
+                style: TextStyle(fontSize: 14),
               ),
-              TextButton(
-                child:
-                    const Text('Delete', style: TextStyle(color: Colors.red)),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                ),
               ),
             ],
-          );
-        },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Delete Account'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmDelete == true) {
+      await _verifyAndDeleteAccount();
+    }
+  }
+
+  Future<void> _verifyAndDeleteAccount() async {
+    if (_passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter your password'),
+          backgroundColor: Colors.red,
+        ),
       );
+      return;
+    }
 
-      if (confirmDelete == true) {
-        // Delete user data from Firestore
-        final user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          // Delete profile picture from storage if exists
-          if (profileImageUrl.isNotEmpty) {
-            try {
-              await FirebaseStorage.instance
-                  .refFromURL(profileImageUrl)
-                  .delete();
-            } catch (e) {
-              print("Error deleting profile picture: $e");
-            }
+    setState(() {
+      _isDeleting = true;
+    });
+
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && user.email != null) {
+        // Re-authenticate user
+        final credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: _passwordController.text,
+        );
+
+        await user.reauthenticateWithCredential(credential);
+        await _deleteAccount();
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = 'Authentication failed';
+      if (e.code == 'wrong-password') {
+        errorMessage = 'Incorrect password';
+      } else if (e.code == 'user-mismatch' || e.code == 'user-not-found') {
+        errorMessage = 'User not found';
+      } else if (e.code == 'invalid-credential') {
+        errorMessage = 'Invalid credentials';
+      } else if (e.code == 'too-many-requests') {
+        errorMessage = 'Too many attempts. Try again later';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      _passwordController.clear();
+      setState(() {
+        _isDeleting = false;
+      });
+    }
+  }
+
+  Future<void> _deleteAccount() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Delete profile picture from storage if exists
+        if (profileImageUrl.isNotEmpty) {
+          try {
+            await FirebaseStorage.instance.refFromURL(profileImageUrl).delete();
+          } catch (e) {
+            print("Error deleting profile picture: $e");
           }
-
-          // Delete user document from Firestore
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .delete();
-
-          // Delete user from Firebase Auth
-          await user.delete();
-
-          // Navigate to login screen
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const Login()),
-            (route) => false,
-          );
         }
+
+        // Delete user document from Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .delete();
+
+        // Delete user from Firebase Auth
+        await user.delete();
+
+        // Navigate to login screen
+        if (!mounted) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const Login()),
+          (route) => false,
+        );
       }
     } catch (e) {
       print("Error deleting account: $e");
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error deleting account: ${e.toString()}'),
+          content: Text('Failed to delete account: ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
@@ -204,90 +296,127 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: profileImageUrl.isNotEmpty
-                      ? NetworkImage(profileImageUrl)
-                      : const AssetImage("images/profile.jfif")
-                          as ImageProvider,
-                ),
-                GestureDetector(
-                  onTap: showImagePickerOptions,
-                  child: const CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.edit, size: 16, color: Colors.black),
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: profileImageUrl.isNotEmpty
+                        ? NetworkImage(profileImageUrl)
+                        : const AssetImage("images/profile.jfif")
+                            as ImageProvider,
                   ),
+                  GestureDetector(
+                    onTap: showImagePickerOptions,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child:
+                          const Icon(Icons.edit, size: 16, color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF768FCF),
                 ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w400,
-                color: Color(0xFF768FCF),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              email,
-              style: const TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 30),
-            buildProfileButton("Setting", Icons.settings, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()),
-              );
-            }),
-            buildProfileButton("Contact", Icons.phone, () {}),
-            buildProfileButton("Blood Details", Icons.bloodtype, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const BloodDetails()),
-              );
-            }),
-            buildProfileButton("Share App", Icons.share, () {}),
-            buildProfileButton("Help", Icons.help_outline, () {}),
-
-            SizedBox(
-              height: 200.0,
-            ),
-
-            // Delete Account Button
-            TextButton(
-              onPressed: _deleteAccount,
-              child: const Text(
-                "Delete Account",
-                style: TextStyle(color: Colors.red, fontSize: 18),
+              const SizedBox(height: 4),
+              Text(
+                email,
+                style: const TextStyle(color: Colors.grey),
               ),
-            ),
-            // Sign Out Button
-            TextButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushAndRemoveUntil(
+              const SizedBox(height: 30),
+              buildProfileButton("Settings", Icons.settings, () {
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Login()),
-                  (route) => false,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
                 );
-              },
-              child: const Text(
-                "Sign Out",
-                style: TextStyle(color: Color(0xff768FCF), fontSize: 24),
+              }),
+              buildProfileButton("Contact", Icons.phone, () {}),
+              buildProfileButton("Blood Details", Icons.bloodtype, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BloodDetails()),
+                );
+              }),
+              buildProfileButton("Share App", Icons.share, () {}),
+              buildProfileButton("Help", Icons.help_outline, () {}),
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red.withOpacity(0.1),
+                          foregroundColor: Colors.red,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        onPressed:
+                            _isDeleting ? null : _showDeleteAccountDialog,
+                        child: _isDeleting
+                            ? const CircularProgressIndicator()
+                            : const Text(
+                                'Delete Account',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: const Color(0xff768FCF),
+                          side: const BorderSide(color: Color(0xff768FCF)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+                          if (!mounted) return;
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Login()),
+                            (route) => false,
+                          );
+                        },
+                        child: const Text(
+                          'Sign Out',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -295,7 +424,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildProfileButton(String title, IconData icon, VoidCallback onTap) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -303,6 +432,14 @@ class _ProfilePageState extends State<ProfilePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Row(
             children: [
@@ -313,7 +450,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: const TextStyle(fontSize: 16),
               ),
               const Spacer(),
-              const Icon(Icons.arrow_forward_ios, size: 16),
+              const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
             ],
           ),
         ),

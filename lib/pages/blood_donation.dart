@@ -20,7 +20,7 @@ class BloodDonation extends StatefulWidget {
       'title': 'Request',
       'color': const Color(0xFF94D1E6),
       'icon': 'images/request.png',
-      'attendance': true,
+      'request': true,
     },
     {
       'title': 'Support',
@@ -162,6 +162,18 @@ class _BloodDonationState extends State<BloodDonation> {
                   ...item,
                   'onTap': () {
                     if (item['donate'] == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DonorList()),
+                      );
+                    } else if (item['equest'] == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DonorList()),
+                      );
+                    } else if (item['support'] == true) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

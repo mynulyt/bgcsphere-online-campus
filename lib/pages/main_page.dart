@@ -1,4 +1,6 @@
 import 'package:bgcsphere/pages/splash_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/category_page.dart';
@@ -38,6 +40,33 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
+  String? _profileImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileImage();
+  }
+
+  Future<void> _loadProfileImage() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final uid = user.uid;
+        final docSnapshot =
+            await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+        if (docSnapshot.exists &&
+            docSnapshot.data()!.containsKey('profile_picture')) {
+          setState(() {
+            _profileImageUrl = docSnapshot.data()!['profile_picture'];
+          });
+        }
+      }
+    } catch (e) {
+      print("Error fetching profile image: $e");
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -100,9 +129,11 @@ class MainPageState extends State<MainPage> {
                   MaterialPageRoute(builder: (context) => const ProfilePage()),
                 );
               },
-              child: const CircleAvatar(
-                backgroundColor: Colors.black,
-                backgroundImage: AssetImage("images/profile.jfif"),
+              child: CircleAvatar(
+                backgroundColor: Colors.grey.shade200,
+                backgroundImage: _profileImageUrl != null
+                    ? NetworkImage(_profileImageUrl!)
+                    : const AssetImage("images/profile.jfif") as ImageProvider,
               ),
             ),
           ),
