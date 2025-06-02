@@ -56,7 +56,7 @@ class HomeItems extends StatelessWidget {
     {
       'title': 'Let\' Chat',
       'color': const Color(0xFF36AD52).withOpacity(0.48),
-      'icon': 'images/chatt.jfif',
+      'icon': 'images/icon.png',
       'chat': true,
     },
   ];
