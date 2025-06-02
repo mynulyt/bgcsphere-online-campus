@@ -1,4 +1,3 @@
-// File: register.dart
 import 'package:bgcsphere/Database/auth_services.dart';
 
 import 'package:bgcsphere/pages/main_page.dart';
