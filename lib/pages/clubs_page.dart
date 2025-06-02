@@ -1,4 +1,5 @@
 import 'package:bgcsphere/Messenger/hea.dart';
+import 'package:bgcsphere/live_support.dart';
 import 'package:bgcsphere/pages/blood_donation.dart';
 
 import 'package:bgcsphere/pages/club_details.dart';
@@ -23,7 +24,7 @@ class HomeItems extends StatelessWidget {
       'clubs': true,
     },
     {
-      'title': 'Support',
+      'title': 'Live Support',
       'color': const Color(0xFF3CB5E0),
       'icon': 'images/support.png',
       'support': true,
@@ -113,6 +114,11 @@ class HomeItems extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ClubDetails()),
+      );
+    } else if (item['support'] == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LiveSupportPage()),
       );
     } else if (item['classroom'] == true) {
       Navigator.push(
