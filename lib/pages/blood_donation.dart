@@ -167,7 +167,7 @@ class _BloodDonationState extends State<BloodDonation> {
                         MaterialPageRoute(
                             builder: (context) => const DonorList()),
                       );
-                    } else if (item['equest'] == true) {
+                    } else if (item['request'] == true) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
