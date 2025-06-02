@@ -18,7 +18,7 @@ class NoticeCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
         width: 365,
-        height: 210,
+        height: 250,
         margin: const EdgeInsets.all(12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
