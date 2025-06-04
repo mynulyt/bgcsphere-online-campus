@@ -100,7 +100,7 @@ class _RegisterState extends State<Register>
         );
         _clearFields();
 
-        // ✅ Navigate to MainPage after successful registration
+        //  Navigate to MainPage after successful registration
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainPage()),

@@ -32,7 +32,8 @@ class _JoinAsScreenState extends State<JoinAsScreen> {
               ),
               Expanded(
                 flex: 4,
-                child: Container(color: Colors.white),
+                child:
+                    Container(color: const Color.fromARGB(255, 151, 118, 118)),
               ),
             ],
           ),
