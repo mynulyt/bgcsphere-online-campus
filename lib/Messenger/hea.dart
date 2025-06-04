@@ -28,7 +28,7 @@ class MyApp2 extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Chat of Duty",
         theme: ThemeData(
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
           centerTitle: true,
           elevation: 1,
           iconTheme: IconThemeData(
@@ -41,7 +41,7 @@ class MyApp2 extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
         )),
-        home: SplashScreen2());
+        home: const SplashScreen2());
   }
 }
 

@@ -29,10 +29,10 @@ class _SplashScreen2State extends State<SplashScreen2> {
         debugPrint('User: ${Apis.auth.currentUser}');
         debugPrint('UserAdditionalInfo: ${Apis.auth.currentUser}');
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => LoginScreen()));
+            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
       }
     });
   }

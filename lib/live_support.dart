@@ -10,16 +10,16 @@ class LiveSupportPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        title: Row(
+        title: const Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               backgroundImage: NetworkImage('https://i.pravatar.cc/300'),
               radius: 20,
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text("Support Authority",
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -94,9 +94,9 @@ class MessageInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
               color: Colors.black12, blurRadius: 4, offset: Offset(0, -2)),
         ],

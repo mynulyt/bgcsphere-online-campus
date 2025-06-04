@@ -69,8 +69,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
-                  if (value == null || value.isEmpty)
+                  if (value == null || value.isEmpty) {
                     return 'Email is required';
+                  }
                   if (!value.contains('@')) return 'Enter a valid email';
                   return null;
                 },
