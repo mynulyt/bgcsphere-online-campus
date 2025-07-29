@@ -14,28 +14,29 @@ class CurvedNavBar extends StatefulWidget {
 class _CurvedNavBarState extends State<CurvedNavBar> {
   int _page = 0;
 
-  final pages2 = [NewsfeedPage(), MainPage(), NotificationsPage()];
+  final pages2 = [MainPage(), NewsfeedPage(), NotificationsPage()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         index: _page,
-        backgroundColor: Colors.purple,
-        buttonBackgroundColor: Colors.white,
-        color: Colors.white,
+        height: 60.0,
+        items: const [
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.article, size: 30, color: Colors.white),
+          Icon(Icons.notifications, size: 30, color: Colors.white),
+        ],
+        color: const Color(0xff6677CC),
+        buttonBackgroundColor: const Color(0xff6677CC),
+        backgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOut,
-        animationDuration: const Duration(milliseconds: 600),
+        animationDuration: const Duration(milliseconds: 300),
         onTap: (index) {
           setState(() {
             _page = index;
           });
         },
-        items: const [
-          Icon(Icons.home),
-          Icon(Icons.newspaper),
-          Icon(Icons.notifications),
-        ],
       ),
       body: pages2[_page],
     );

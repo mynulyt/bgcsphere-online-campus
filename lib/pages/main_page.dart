@@ -1,14 +1,12 @@
-import 'package:bgcsphere/pages/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/category_page.dart';
 
 import 'package:bgcsphere/pages/clubs_page.dart';
 import 'package:bgcsphere/pages/create_post_page.dart';
-import 'package:bgcsphere/pages/newsfeed_page.dart';
-import 'package:bgcsphere/pages/notifications_page.dart';
+
 import 'package:bgcsphere/pages/profile_page.dart';
 import 'package:bgcsphere/pages/set_images.dart';
 

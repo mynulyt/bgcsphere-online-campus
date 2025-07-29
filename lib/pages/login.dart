@@ -1,3 +1,4 @@
+import 'package:bgcsphere/NavBar/NavBar.dart';
 import 'package:bgcsphere/pages/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       if (FirebaseAuth.instance.currentUser != null) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => const CurvedNavBar()),
         );
       }
     });
