@@ -1,3 +1,4 @@
+import 'package:bgcsphere/main.dart';
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/login.dart';
 
@@ -22,7 +23,7 @@ class _JoinAsScreenState extends State<JoinAsScreen> {
                 flex: 5,
                 child: Container(
                   height: 438,
-                  width: 438,
+                  width: MediaQuery.of(context).size.width,
                   color: const Color(0xff768FCF),
                   child: Image.asset(
                     "images/wow.png",
@@ -32,8 +33,7 @@ class _JoinAsScreenState extends State<JoinAsScreen> {
               ),
               Expanded(
                 flex: 4,
-                child:
-                    Container(color: const Color.fromARGB(255, 151, 118, 118)),
+                child: Container(color: const Color(0xff6677CC)),
               ),
             ],
           ),
