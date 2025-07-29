@@ -1,9 +1,10 @@
+import 'package:bgcsphere/pages/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/category_page.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
 import 'package:bgcsphere/pages/clubs_page.dart';
 import 'package:bgcsphere/pages/create_post_page.dart';
 import 'package:bgcsphere/pages/newsfeed_page.dart';
@@ -19,9 +20,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
   String? _profileImageUrl;
-  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
   void initState() {
@@ -46,33 +45,6 @@ class MainPageState extends State<MainPage> {
       }
     } catch (e) {
       print("Error fetching profile image: $e");
-    }
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
-        );
-        break;
-      case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const NewsfeedPage()),
-        );
-        break;
-      case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const NotificationsPage()),
-        );
-        break;
     }
   }
 
@@ -187,23 +159,6 @@ class MainPageState extends State<MainPage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
-        index: _selectedIndex,
-        height: 60.0,
-        items: const [
-          Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.article, size: 30, color: Colors.white),
-          Icon(Icons.notifications, size: 30, color: Colors.white),
-        ],
-        color: const Color(0xff6677CC),
-        buttonBackgroundColor: const Color(0xff6677CC),
-        backgroundColor: Colors.transparent,
-        animationCurve: Curves.easeInOut,
-        animationDuration: const Duration(milliseconds: 300),
-        onTap: _onItemTapped,
-        letIndexChange: (index) => true,
       ),
     );
   }
