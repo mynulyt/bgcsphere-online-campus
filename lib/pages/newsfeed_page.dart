@@ -1,6 +1,5 @@
 import 'package:bgcsphere/pages/category_page.dart';
-import 'package:bgcsphere/pages/main_page.dart';
-import 'package:bgcsphere/pages/notifications_page.dart';
+
 import 'package:flutter/material.dart';
 
 class NewsfeedPage extends StatefulWidget {
@@ -11,8 +10,6 @@ class NewsfeedPage extends StatefulWidget {
 }
 
 class _NewsfeedPageState extends State<NewsfeedPage> {
-  int _selectedIndex = 1;
-
   final List<Map<String, dynamic>> posts = [
     {
       'profilePic': 'images/profile1.jpg',
@@ -39,31 +36,6 @@ class _NewsfeedPageState extends State<NewsfeedPage> {
       'shares': 5,
     },
   ];
-
-  void _onItemTapped(int index) {
-    if (index == _selectedIndex) return;
-
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
-        );
-        break;
-      case 1:
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const NotificationsPage()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,29 +82,6 @@ class _NewsfeedPageState extends State<NewsfeedPage> {
                 return _buildPostContainer(posts[index]);
               },
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xff6677CC).withOpacity(0.61),
-        unselectedItemColor: Colors.black,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article_outlined),
-            label: 'Newsfeed',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
-            label: 'Notifications',
           ),
         ],
       ),

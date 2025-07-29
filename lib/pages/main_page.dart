@@ -1,35 +1,15 @@
-import 'package:bgcsphere/pages/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/category_page.dart';
-
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:bgcsphere/pages/clubs_page.dart';
 import 'package:bgcsphere/pages/create_post_page.dart';
 import 'package:bgcsphere/pages/newsfeed_page.dart';
 import 'package:bgcsphere/pages/notifications_page.dart';
 import 'package:bgcsphere/pages/profile_page.dart';
 import 'package:bgcsphere/pages/set_images.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BGC Sphere',
-      home: SplashScreen(),
-    );
-  }
-}
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -41,6 +21,7 @@ class MainPage extends StatefulWidget {
 class MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   String? _profileImageUrl;
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
   void initState() {
@@ -207,28 +188,22 @@ class MainPageState extends State<MainPage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xff6677CC).withOpacity(0.61),
-        unselectedItemColor: Colors.black,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
+      bottomNavigationBar: CurvedNavigationBar(
+        key: _bottomNavigationKey,
+        index: _selectedIndex,
+        height: 60.0,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: 'Newsfeed',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.article, size: 30, color: Colors.white),
+          Icon(Icons.notifications, size: 30, color: Colors.white),
         ],
+        color: const Color(0xff6677CC),
+        buttonBackgroundColor: const Color(0xff6677CC),
+        backgroundColor: Colors.transparent,
+        animationCurve: Curves.easeInOut,
+        animationDuration: const Duration(milliseconds: 300),
+        onTap: _onItemTapped,
+        letIndexChange: (index) => true,
       ),
     );
   }
