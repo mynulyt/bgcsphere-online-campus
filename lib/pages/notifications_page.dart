@@ -1,5 +1,3 @@
-import 'package:bgcsphere/pages/main_page.dart';
-import 'package:bgcsphere/pages/newsfeed_page.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -10,34 +8,6 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  int _selectedIndex = 2;
-
-  void _onItemTapped(int index) {
-    if (index == _selectedIndex) return;
-
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const NewsfeedPage()),
-        );
-        break;
-
-      case 2:
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -107,28 +77,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
             NotificationList(),
             Center(child: Text('Unread')),
             Center(child: Text('Read')),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          selectedItemColor: const Color(0xff6677CC).withOpacity(0.61),
-          unselectedItemColor: Colors.black,
-          showUnselectedLabels: true,
-          showSelectedLabels: true,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.feed_outlined),
-              label: 'Newsfeed',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notifications',
-            ),
           ],
         ),
       ),
