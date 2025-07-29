@@ -1,4 +1,6 @@
+import 'package:bgcsphere/Messenger/Screens%20Page/splash_screen.dart';
 import 'package:bgcsphere/Messenger/hea.dart';
+
 import 'package:bgcsphere/live_support.dart';
 import 'package:bgcsphere/pages/blood_donation.dart';
 
@@ -7,6 +9,9 @@ import 'package:bgcsphere/pages/classroom.dart';
 import 'package:bgcsphere/pages/fund_raising.dart';
 import 'package:bgcsphere/pages/notice_page.dart';
 import 'package:flutter/material.dart';
+
+//For Media Query
+late Size mq;
 
 class HomeItems extends StatelessWidget {
   final List<Map<String, dynamic>> clubItems;

@@ -1,4 +1,3 @@
-import 'package:bgcsphere/main.dart';
 import 'package:flutter/material.dart';
 import 'package:bgcsphere/pages/login.dart';
 
