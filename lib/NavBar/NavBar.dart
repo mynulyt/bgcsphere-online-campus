@@ -14,7 +14,11 @@ class CurvedNavBar extends StatefulWidget {
 class _CurvedNavBarState extends State<CurvedNavBar> {
   int _page = 0;
 
-  final pages2 = [MainPage(), NewsfeedPage(), NotificationsPage()];
+  final pages2 = [
+    MainPage(),
+    NewsfeedPage(),
+    NotificationsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
